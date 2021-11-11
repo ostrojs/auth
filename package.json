@@ -1,0 +1,30 @@
+{
+  "name": "@ostro/auth",
+  "version": "0.0.0-alpha.0",
+  "description": "Authentication module for ostrojs",
+  "engines": {
+    "node": ">= 12.0"
+  },
+  "main": "authManager.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@ostro/support": "^0.0.0-alpha.0",
+    "@ostro/contracts": "^0.0.0-alpha.0",
+    "uid-safe": "^2.1.5"
+  },
+  "keywords": [
+    "@ostro/auth"
+  ],
+  "author": "amar",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ostrojs/auth.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ostrojs/auth/issues"
+  },
+  "homepage": "https://github.com/ostrojs/auth#readme"
+}
