@@ -1,21 +1,22 @@
 {
   "name": "@ostro/auth",
   "version": "0.0.0-alpha.0",
-  "description": "Authentication module for ostrojs",
-  "engines": {
-    "node": ">= 12.0"
-  },
+  "description": "Authentication module for OstroJS",
   "main": "authManager.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@ostro/support": "^0.0.0-alpha.0",
-    "@ostro/contracts": "^0.0.0-alpha.0",
+    "@ostro/support": "^0.0.0-alpha",
+    "@ostro/contracts": "^0.0.0-alpha",
     "uid-safe": "^2.1.5"
   },
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "engineStrict": true,
   "keywords": [
-    "@ostro/auth"
+    "auth"
   ],
   "author": "amar",
   "license": "MIT",
