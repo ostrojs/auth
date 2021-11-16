@@ -1,4 +1,4 @@
-const GenericUserInterface = require('@Ostro/contracts/auth/genericUser')
+const GenericUserInterface = require('@ostro/contracts/auth/genericUser')
 class GenericUser extends GenericUserInterface {
 
     constructor($attributes) {
