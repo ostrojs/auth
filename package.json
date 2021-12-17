@@ -19,7 +19,8 @@
     "auth",
     "authentication",
     "api authentication",
-    "authentication guard"
+    "authentication guard",
+    "session authentication"
   ],
   "author": "amar",
   "license": "MIT",
