@@ -1,6 +1,6 @@
 {
   "name": "@ostro/auth",
-  "version": "0.0.0-alpha.2",
+  "version": "0.0.0-alpha.3",
   "description": "Authentication module for OstroJS",
   "main": "authManager.js",
   "scripts": {
