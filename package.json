@@ -16,7 +16,10 @@
   },
   "engineStrict": true,
   "keywords": [
-    "auth"
+    "auth",
+    "authentication",
+    "api authentication",
+    "authentication guard"
   ],
   "author": "amar",
   "license": "MIT",
