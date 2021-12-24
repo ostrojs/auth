@@ -15,7 +15,7 @@ class CreatesUserProviders {
 
         if (isset(this.$customProviderCreators[$driver])) {
             return call_user_func(
-                this.$customProviderCreators[$driver], this.$app, $config
+                this.$customProviderCreators[$driver], this.$container, $config
             );
         }
 
@@ -31,25 +31,25 @@ class CreatesUserProviders {
         }
     }
 
-    getProviderConfiguration($provider) {
-        $provider = $provider || this.getDefaultUserProvider()
-        if ($provider) {
-            return this.$app['config']['auth.providers.' + $provider];
+    getProviderConfiguration(provider) {
+        provider = provider || this.getDefaultUserProvider()
+        if (provider) {
+            return this.$container.config.get(`auth.providers.${provider}`);
         }
     }
 
     createDatabaseProvider($config) {
-        let $connection = this.$app['db'].connection($config['connection'] || null);
+        let $connection = this.$container['db'].connection($config['connection'] || null);
 
-        return new DatabaseUserProvider($connection, this.$app['hash'], $config['table']);
+        return new DatabaseUserProvider($connection, this.$container['hash'], $config['table']);
     }
 
     createEloquentProvider($config) {
-        return new EloquentUserProvider(this.$app['hash'], $config['model']);
+        return new EloquentUserProvider(this.$container['hash'], $config['model']);
     }
 
     getDefaultUserProvider() {
-        return this.$app['config']['auth.defaults.provider'];
+        return this.$container.config.get('auth.defaults.provider');
     }
 }
 

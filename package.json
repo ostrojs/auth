@@ -1,6 +1,6 @@
 {
   "name": "@ostro/auth",
-  "version": "0.0.0-alpha.1",
+  "version": "0.0.0-alpha.3",
   "description": "Authentication module for OstroJS",
   "main": "authManager.js",
   "scripts": {
@@ -16,7 +16,11 @@
   },
   "engineStrict": true,
   "keywords": [
-    "auth"
+    "auth",
+    "authentication",
+    "api authentication",
+    "authentication guard",
+    "session authentication"
   ],
   "author": "amar",
   "license": "MIT",

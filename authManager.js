@@ -70,7 +70,7 @@ class AuthManager extends implement(Manager,CreatesUserProvider) {
     }
 
     getDefaultDriver() {
-        return this.getConfig(`defaults.guard`);
+        return super.getConfig(`defaults.guard`);
     }
 
     userResolver() {
