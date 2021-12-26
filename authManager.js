@@ -6,16 +6,20 @@ const SessionGuard = require('./sessionGuard')
 const TokenGuard = require('./tokenGuard')
 const AuthRequest = require('./authRequest')
 
-class AuthManager extends implement(Manager,CreatesUserProvider) {
+class AuthManager extends implement(Manager, CreatesUserProvider) {
 
     $type = 'auth';
 
     constructor($app) {
         super($app)
-
-        this.$userResolver = function($guard = null) {
-            return this.guard($guard).user();
-        };
+        Object.defineProperties(this, {
+            $userResolver: {
+                value: function($guard = null) {
+                    return this.guard($guard).user();
+                },
+                writable: true
+            }
+        })
     }
 
     guard($name = null) {

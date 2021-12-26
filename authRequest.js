@@ -2,19 +2,26 @@ const { Macroable } = require('@ostro/support/macro')
 
 class Auth extends Macroable {
 
-    $request;
-
-    $manager;
-
-    $guards = {};
-
     constructor(request, manager) {
         super()
-        this.$request = request;
-        this.$manager = manager;
-        this.$defaultGuard = this.$manager.getDefaultDriver();
+        Object.defineProperties(this, {
+            $request: {
+                value: request
+            },
+            $manager: {
+                value: manager,
+            },
+            $defaultGuard: {
+                value: manager.getDefaultDriver(),
+                writable: true
+            },
+            $guards: {
+                value: {},
+                writable: true
+            }
+        })
     }
-    
+
     guard($name) {
         if (!$name) {
             $name = this.$defaultGuard
