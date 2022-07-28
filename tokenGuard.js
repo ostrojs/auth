@@ -24,12 +24,18 @@ class TokenGuard extends GuardHelpers {
         this.$storageKey = $storageKey;
     }
 
+    async hasValidCredentials($user, $credentials) {
+        return !is_null($user) && await this.$provider.validateCredentials($user, $credentials);
+
+    }
+
     async attempt($credentials = {}) {
         let $user = await this.$provider.retrieveByCredentials($credentials);
         this.$lastAttempted = $user;
 
         if (await this.hasValidCredentials($user, $credentials)) {
-            await this.login($user, $remember);
+            this.$user = $user;
+            await this.user();
 
             return true;
         }
