@@ -1,14 +1,14 @@
 {
   "name": "@ostro/auth",
-  "version": "0.0.0-alpha.4",
+  "version": "1.0.0",
   "description": "Authentication module for OstroJS",
   "main": "authManager.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@ostro/support": "^0.0.0-alpha",
-    "@ostro/contracts": "^0.0.0-alpha",
+    "@ostro/support": "^1.0.2",
+    "@ostro/contracts": "^1.0.0",
     "uid-safe": "^2.1.5"
   },
   "engines": {
