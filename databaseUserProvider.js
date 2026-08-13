@@ -1,4 +1,5 @@
 const GenericUser = require('./genericUser')
+const { hash_equals } = require('@ostro/support/function')
 class DatabaseUserProvider {
 
     $conn;

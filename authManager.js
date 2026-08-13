@@ -92,7 +92,7 @@ class AuthManager extends implement(Manager, CreatesUserProvider) {
     }
 
     hasResolvedGuards() {
-        return count(this.$driver) > 0;
+        return count(this.$drivers) > 0;
     }
 
     forgetGuards() {

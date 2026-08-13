@@ -1,3 +1,5 @@
+const AuthenticationException = require('./authenticationException');
+
 class GuardHelpers {
 
     async authenticate() {

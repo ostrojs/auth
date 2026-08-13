@@ -4,11 +4,13 @@
   "description": "Authentication module for OstroJS",
   "main": "authManager.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npx c8 npx jest"
   },
   "dependencies": {
-    "@ostro/support": "^1.0.11",
     "@ostro/contracts": "^1.0.2",
+    "@ostro/support": "^1.0.11",
+    "commander": "^15.0.0",
+    "string-argv": "^0.3.2",
     "uid-safe": "^2.1.5"
   },
   "engines": {

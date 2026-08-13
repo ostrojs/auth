@@ -130,7 +130,7 @@ class SessionGuard extends GuardHelpers {
     async onceBasic($field = 'email', $extraConditions = {}) {
         let $credentials = await this.basicCredentials(this.getRequest(), $field);
 
-        if (!this.once(Object.assign($credentials, $extraConditions))) {
+        if (!await this.once(Object.assign($credentials, $extraConditions))) {
             return this.failedBasicResponse();
         }
     }
@@ -291,13 +291,14 @@ class SessionGuard extends GuardHelpers {
     }
 
     async rehashUserPassword($password, $attribute) {
-        if (!Hash.check($password, await this.user()[$attribute])) {
+        let $user = await this.user();
+        if (!Hash.check($password, $user[$attribute])) {
             throw new InvalidArgumentException('The given password does not match the current password.');
         }
 
-        return tap(await this.user().forceFill({
+        return tap(await $user.forceFill({
             [$attribute]: Hash.make($password),
-        })).save();
+        }), ($u) => $u.save());
     }
 
     getLastAttempted() {
