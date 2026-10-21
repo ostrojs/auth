@@ -1,35 +1,58 @@
 {
-  "name": "@ostro/auth",
-  "version": "1.0.1",
-  "description": "Authentication module for OstroJS",
-  "main": "authManager.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "dependencies": {
-    "@ostro/support": "^1.0.11",
-    "@ostro/contracts": "^1.0.2",
-    "uid-safe": "^2.1.5"
-  },
-  "engines": {
-    "node": ">=12.0.0"
-  },
-  "engineStrict": true,
-  "keywords": [
-    "auth",
-    "authentication",
-    "api authentication",
-    "authentication guard",
-    "session authentication"
-  ],
-  "author": "amar",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ostrojs/auth.git"
-  },
-  "bugs": {
-    "url": "https://github.com/ostrojs/auth/issues"
-  },
-  "homepage": "https://github.com/ostrojs/auth#readme"
+    "name": "@ostro/auth",
+    "version": "2.0.0-alpha.1",
+    "description": "Authentication module for OstroJS",
+    "main": "build/authManager.js",
+    "types": "build/authManager.d.ts",
+    "files": [
+        "build"
+    ],
+    "exports": {
+        ".": {
+            "types": "./build/authManager.d.ts",
+            "default": "./build/authManager.js"
+        },
+        "./*": {
+            "types": "./build/*.d.ts",
+            "default": "./build/*.js"
+        }
+    },
+    "scripts": {
+        "build": "npx tsc -p tsconfig.build.json && node scripts/build.js",
+        "prepublishOnly": "npm run build",
+        "test": "npx c8 npx jest",
+        "clean": "rm -rf build coverage"
+    },
+    "dependencies": {
+        "@ostro/contracts": "^2.0.0-alpha.1",
+        "@ostro/support": "^2.0.0-alpha.1",
+        "commander": "^15.0.0",
+        "string-argv": "^0.3.2",
+        "uid-safe": "^2.1.5"
+    },
+    "engines": {
+        "node": ">=18.0.0"
+    },
+    "engineStrict": true,
+    "keywords": [
+        "auth",
+        "authentication",
+        "api authentication",
+        "authentication guard",
+        "session authentication"
+    ],
+    "author": "amar",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ostrojs/auth.git"
+    },
+    "bugs": {
+        "url": "https://github.com/ostrojs/auth/issues"
+    },
+    "homepage": "https://github.com/ostrojs/auth#readme",
+    "devDependencies": {
+        "typescript": "^5.8.0",
+        "@types/node": "^22.0.0"
+    }
 }
