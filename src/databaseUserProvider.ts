@@ -1,5 +1,6 @@
 import GenericUser from './genericUser';
 import { hash_equals, empty, count, is_null } from '@ostro/support/function';
+import { contains } from '@ostro/support/string';
 
 /**
  * Class DatabaseUserProvider.
@@ -75,7 +76,7 @@ class DatabaseUserProvider {
     public async retrieveByCredentials($credentials: Record<string, any> = {}): Promise<GenericUser | undefined> {
         if (
             empty($credentials) ||
-            (count($credentials) === 1 && (String as any).contains(this.firstCredentialKey($credentials), 'password'))
+            (count($credentials) === 1 && contains(this.firstCredentialKey($credentials), 'password'))
         ) {
             return;
         }
@@ -84,7 +85,7 @@ class DatabaseUserProvider {
 
         for (const $key in $credentials) {
             const $value = $credentials[$key];
-            if ((String as any).contains($key, 'password')) {
+            if (contains($key, 'password')) {
                 continue;
             }
 

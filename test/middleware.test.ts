@@ -1,4 +1,3 @@
-import '@ostro/support/helpers';
 import Authenticate from '../src/middleware/authenticate';
 import RedirectIfAuthenticated from '../src/middleware/redirectIfAuthenticated';
 import StartAuth from '../src/middleware/startAuth';

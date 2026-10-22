@@ -1,4 +1,5 @@
 import { is_string, count, trim } from '@ostro/support/function';
+import { contains } from '@ostro/support/string';
 
 /**
  * Class Recaller.
@@ -57,7 +58,7 @@ class Recaller {
      * @returns True if string contains a pipe separator
      */
     public properString(): boolean {
-        return is_string(this.$recaller) && (String as any).contains(this.$recaller, '|');
+        return is_string(this.$recaller) && contains(this.$recaller, '|');
     }
 
     /**
