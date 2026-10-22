@@ -1,19 +1,19 @@
 {
     "name": "@ostro/auth",
-    "version": "2.0.0-alpha.1",
+    "version": "2.0.0-alpha.2",
     "description": "Authentication module for OstroJS",
     "main": "build/authManager.js",
-    "types": "build/authManager.d.ts",
+    "types": "build/types/authManager.d.ts",
     "files": [
         "build"
     ],
     "exports": {
         ".": {
-            "types": "./build/authManager.d.ts",
+            "types": "./build/types/authManager.d.ts",
             "default": "./build/authManager.js"
         },
         "./*": {
-            "types": "./build/*.d.ts",
+            "types": "./build/types/*.d.ts",
             "default": "./build/*.js"
         }
     },
@@ -24,8 +24,8 @@
         "clean": "rm -rf build coverage"
     },
     "dependencies": {
-        "@ostro/contracts": "^2.0.0-alpha.1",
-        "@ostro/support": "^2.0.0-alpha.1",
+        "@ostro/contracts": "^2.0.0-alpha.2",
+        "@ostro/support": "^2.0.0-alpha.2",
         "commander": "^15.0.0",
         "string-argv": "^0.3.2",
         "uid-safe": "^2.1.5"
