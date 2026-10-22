@@ -1,4 +1,3 @@
-import '@ostro/support/helpers';
 import AuthManager from '../src/authManager';
 import AuthRequest from '../src/authRequest';
 import AuthServiceProvider from '../src/authServiceProvider';

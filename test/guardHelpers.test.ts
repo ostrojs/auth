@@ -1,4 +1,3 @@
-import '@ostro/support/helpers';
 import GuardHelpers from '../src/guardHelpers';
 import AuthenticationException from '../src/authenticationException';
 

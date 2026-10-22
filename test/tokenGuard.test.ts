@@ -1,4 +1,3 @@
-import '@ostro/support/helpers';
 import TokenGuard from '../src/tokenGuard';
 
 describe('TokenGuard Unit Tests', () => {
