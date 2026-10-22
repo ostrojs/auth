@@ -1,4 +1,3 @@
-import '@ostro/support/helpers';
 import DatabaseUserProvider from '../src/databaseUserProvider';
 import EloquentUserProvider from '../src/eloquentUserProvider';
 import GenericUser from '../src/genericUser';

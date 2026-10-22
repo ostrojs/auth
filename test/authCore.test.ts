@@ -1,4 +1,3 @@
-import '@ostro/support/helpers';
 import Authenticatable from '../src/authenticatable';
 import AuthenticationException from '../src/authenticationException';
 import GenericUser from '../src/genericUser';

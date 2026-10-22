@@ -1,4 +1,5 @@
 import { empty, count, is_array, is_null } from '@ostro/support/function';
+import { contains } from '@ostro/support/string';
 
 /**
  * Class EloquentUserProvider.
@@ -76,7 +77,7 @@ class EloquentUserProvider {
     public retrieveByCredentials($credentials: Record<string, any>): any {
         if (
             empty($credentials) ||
-            (count($credentials) === 1 && (String as any).contains(this.firstCredentialKey($credentials), 'password'))
+            (count($credentials) === 1 && contains(this.firstCredentialKey($credentials), 'password'))
         ) {
             return;
         }
@@ -85,7 +86,7 @@ class EloquentUserProvider {
 
         for (const $key in $credentials) {
             const $value = $credentials[$key];
-            if ((String as any).contains($key, 'password')) {
+            if (contains($key, 'password')) {
                 continue;
             }
             if (is_array($value) || $value instanceof Array) {
