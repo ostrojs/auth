@@ -1,20 +1,17 @@
 {
     "name": "@ostro/auth",
-    "version": "2.0.0-alpha.5",
+    "version": "2.0.0-alpha.6",
     "description": "Authentication module for OstroJS",
-    "main": "build/authManager.js",
-    "types": "build/types/authManager.d.ts",
-    "files": [
-        "build"
-    ],
+    "main": "authManager.js",
+    "types": "types/authManager.d.ts",
     "exports": {
         ".": {
-            "types": "./build/types/authManager.d.ts",
-            "default": "./build/authManager.js"
+            "types": "./types/authManager.d.ts",
+            "default": "./authManager.js"
         },
         "./*": {
-            "types": "./build/types/*.d.ts",
-            "default": "./build/*.js"
+            "types": "./types/*.d.ts",
+            "default": "./*.js"
         }
     },
     "scripts": {
@@ -25,8 +22,8 @@
         "lint:check": "tsc --noEmit -p tsconfig.build.json"
     },
     "dependencies": {
-        "@ostro/contracts": "^2.0.0-alpha.5",
-        "@ostro/support": "^2.0.0-alpha.6",
+        "@ostro/contracts": "^2.0.0-alpha.6",
+        "@ostro/support": "^2.0.0-alpha.7",
         "uid-safe": "^2.1.5"
     },
     "engines": {
@@ -58,7 +55,7 @@
         "jest": "^30.5.2",
         "ts-jest": "^29.4.15",
         "ts-node": "^10.9.2",
-        "@ostro/builder": "^2.0.0-alpha.3"
+        "@ostro/builder": "^2.0.0-alpha.4"
     },
     "overrides": {
         "sprintf-js": "^1.1.3",
