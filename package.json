@@ -1,6 +1,6 @@
 {
     "name": "@ostro/auth",
-    "version": "2.0.0-alpha.2",
+    "version": "2.0.0-alpha.3",
     "description": "Authentication module for OstroJS",
     "main": "build/authManager.js",
     "types": "build/types/authManager.d.ts",
@@ -18,14 +18,15 @@
         }
     },
     "scripts": {
-        "build": "npx tsc -p tsconfig.build.json && node scripts/build.js",
+        "build": "npm run lint:check && npx tsc -p tsconfig.build.json && node scripts/build.js",
         "prepublishOnly": "npm run build",
         "test": "npx c8 npx jest",
-        "clean": "rm -rf build coverage"
+        "clean": "rm -rf build coverage",
+        "lint:check": "tsc --noEmit -p tsconfig.build.json"
     },
     "dependencies": {
-        "@ostro/contracts": "^2.0.0-alpha.2",
-        "@ostro/support": "^2.0.0-alpha.2",
+        "@ostro/contracts": "^2.0.0-alpha.4",
+        "@ostro/support": "^2.0.0-alpha.4",
         "commander": "^15.0.0",
         "string-argv": "^0.3.2",
         "uid-safe": "^2.1.5"
@@ -59,7 +60,7 @@
         "jest": "^30.5.2",
         "ts-jest": "^29.4.15",
         "ts-node": "^10.9.2",
-        "@ostro/builder": "^2.0.0-alpha.1"
+        "@ostro/builder": "^2.0.0-alpha.2"
     },
     "overrides": {
         "sprintf-js": "^1.1.3",
