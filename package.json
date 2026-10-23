@@ -1,6 +1,6 @@
 {
     "name": "@ostro/auth",
-    "version": "2.0.0-alpha.4",
+    "version": "2.0.0-alpha.5",
     "description": "Authentication module for OstroJS",
     "main": "build/authManager.js",
     "types": "build/types/authManager.d.ts",
@@ -26,9 +26,7 @@
     },
     "dependencies": {
         "@ostro/contracts": "^2.0.0-alpha.5",
-        "@ostro/support": "^2.0.0-alpha.5",
-        "commander": "^15.0.0",
-        "string-argv": "^0.3.2",
+        "@ostro/support": "^2.0.0-alpha.6",
         "uid-safe": "^2.1.5"
     },
     "engines": {
