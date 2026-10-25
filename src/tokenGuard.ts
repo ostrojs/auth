@@ -1,5 +1,5 @@
 import GuardHelpers from './guardHelpers';
-import { createHash } from 'crypto';
+import { createHash } from 'node:crypto';
 import { is_null, empty } from '@ostro/support/function';
 
 /**

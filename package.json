@@ -1,29 +1,29 @@
 {
     "name": "@ostro/auth",
-    "version": "2.0.0-alpha.9",
+    "version": "2.0.0-alpha.4",
     "description": "Authentication module for OstroJS",
     "main": "authManager.js",
-    "types": ".types/authManager.d.ts",
+    "types": ".typed/authManager.d.ts",
     "exports": {
         ".": {
-            "types": "./.types/authManager.d.ts",
+            "types": "./.typed/authManager.d.ts",
             "default": "./authManager.js"
         },
         "./*": {
-            "types": "./.types/*.d.ts",
+            "types": "./.typed/*.d.ts",
             "default": "./*.js"
         }
     },
     "scripts": {
-        "build": "npm run lint:check && npx tsc -p tsconfig.build.json && node scripts/build.js",
+        "build": "npm run lint:check && rm -rf build && ostro-build --prepare",
         "prepublishOnly": "npm run build",
-        "test": "npx c8 npx jest",
+        "test": "jest",
         "clean": "rm -rf build coverage",
-        "lint:check": "tsc --noEmit -p tsconfig.build.json"
+        "lint:check": "tsc --noEmit"
     },
     "dependencies": {
-        "@ostro/contracts": "^2.0.0-alpha.9",
-        "@ostro/support": "^2.0.0-alpha.10",
+        "@ostro/contracts": "^2.0.0-alpha.3",
+        "@ostro/support": "^2.0.0-alpha.3",
         "uid-safe": "^2.1.5"
     },
     "engines": {
@@ -48,7 +48,7 @@
     },
     "homepage": "https://github.com/ostrojs/auth#readme",
     "devDependencies": {
-        "@ostro/builder": "^2.0.0-alpha.7",
+        "@ostro/builder": "^2.0.0-alpha.1",
         "@types/jest": "^30.0.0",
         "@types/node": "^22.0.0",
         "c8": "^10.1.3",

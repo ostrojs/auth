@@ -3,13 +3,15 @@ import InvalidArgumentException from '@ostro/support/exceptions/invalidArgumentE
 import CreatesUserProviders from './createsUserProviders';
 import SessionGuard from './sessionGuard';
 import TokenGuard from './tokenGuard';
+import JwtGuard from './drivers/jwtGuard';
+import PassportGuard from './drivers/passportGuard';
 import AuthRequest from './authRequest';
 import { implement, count } from '@ostro/support/function';
 
 /**
  * Class AuthManager.
  */
-class AuthManager extends (implement(Manager, CreatesUserProviders) as any) {
+class AuthManager extends (implement(Manager, CreatesUserProviders)) {
     public $type: string = 'auth';
     public $userResolver: any;
     declare public $drivers: Record<string, any>;
@@ -104,6 +106,46 @@ class AuthManager extends (implement(Manager, CreatesUserProviders) as any) {
                 $config['storage_key'] || 'api_token',
                 $config['hash'] || false
             );
+        };
+    }
+
+    /**
+     * Create an instance of the JWT guard driver.
+     *
+     * @param $config - Driver configuration
+     * @param $name - Guard name
+     * @returns Factory function creating JwtGuard
+     */
+    public createJwtDriver($config: Record<string, any>, $name: string): (request: any) => JwtGuard {
+        const $provider = this.createUserProvider($config['provider'] || null);
+        const secret = $config['secret'] || this.$app?.config?.get?.('app.key') || 'default-jwt-secret';
+        return ($request: any) => {
+            return new JwtGuard($provider, $request, {
+                secret,
+                algorithm: $config['algorithm'] || 'HS256',
+                issuer: $config['issuer'],
+                audience: $config['audience'],
+                inputKey: $config['input_key'] || 'token'
+            });
+        };
+    }
+
+    /**
+     * Create an instance of the Passport OAuth guard driver.
+     *
+     * @param $config - Driver configuration
+     * @param $name - Guard name
+     * @returns Factory function creating PassportGuard
+     */
+    public createPassportDriver($config: Record<string, any>, $name: string): (request: any) => PassportGuard {
+        const $provider = this.createUserProvider($config['provider'] || null);
+        return ($request: any) => {
+            return new PassportGuard($provider, $request, {
+                provider: $provider,
+                tokenRepository: $config['token_repository'],
+                clientRepository: $config['client_repository'],
+                inputKey: $config['input_key'] || 'access_token'
+            });
         };
     }
 
