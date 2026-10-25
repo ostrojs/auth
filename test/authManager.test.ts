@@ -1,3 +1,4 @@
+import { describe, test, expect, beforeEach, jest } from "@jest/globals";
 import AuthManager from '../src/authManager';
 import AuthRequest from '../src/authRequest';
 import AuthServiceProvider from '../src/authServiceProvider';
