@@ -1,5 +1,13 @@
 import GuardHelpers from '../guardHelpers';
 import { is_null, empty } from '@ostro/support/function';
+import {
+    MemoryTokenRepository,
+    MemoryClientRepository,
+    ITokenRepository,
+    IClientRepository,
+    OAuthToken,
+    OAuthClient
+} from '../passportRepositories';
 
 export interface PassportOptions {
     provider?: any;
@@ -40,11 +48,41 @@ class PassportGuard extends GuardHelpers {
         super();
         this.$provider = $provider;
         this.$request = $request;
-        this.$tokenRepository = options.tokenRepository;
-        this.$clientRepository = options.clientRepository;
+        this.$tokenRepository = options.tokenRepository || new MemoryTokenRepository();
+        this.$clientRepository = options.clientRepository || new MemoryClientRepository();
         if (options.inputKey) {
             this.$inputKey = options.inputKey;
         }
+    }
+
+    /**
+     * Get the token repository instance.
+     */
+    public getTokenRepository(): any {
+        return this.$tokenRepository;
+    }
+
+    /**
+     * Set the token repository instance.
+     */
+    public setTokenRepository(tokenRepository: any): this {
+        this.$tokenRepository = tokenRepository;
+        return this;
+    }
+
+    /**
+     * Get the client repository instance.
+     */
+    public getClientRepository(): any {
+        return this.$clientRepository;
+    }
+
+    /**
+     * Set the client repository instance.
+     */
+    public setClientRepository(clientRepository: any): this {
+        this.$clientRepository = clientRepository;
+        return this;
     }
 
     /**

@@ -218,4 +218,92 @@ describe('PassportGuard Driver', () => {
         expect(revokedTokens.has('oauth-token-123')).toBe(true);
         expect(await guard.user()).toBeNull();
     });
+
+    test('MemoryTokenRepository and MemoryClientRepository work out-of-the-box', async () => {
+        const guard = new PassportGuard(mockProvider, {});
+        const tokenRepo = guard.getTokenRepository();
+        const clientRepo = guard.getClientRepository();
+
+        expect(tokenRepo).toBeDefined();
+        expect(clientRepo).toBeDefined();
+
+        // Create token
+        const createdToken = await tokenRepo.createToken(55, 'mem-token-xyz', 'client-app', 3600);
+        expect(createdToken.token).toBe('mem-token-xyz');
+        expect(createdToken.user_id).toBe(55);
+        expect(createdToken.revoked).toBe(false);
+
+        // Find token
+        const found = await tokenRepo.findToken('mem-token-xyz');
+        expect(found?.user_id).toBe(55);
+
+        // Check isRevoked
+        expect(await tokenRepo.isRevoked('mem-token-xyz')).toBe(false);
+        expect(await tokenRepo.isRevoked('non-existent')).toBe(true);
+
+        // Revoke token
+        expect(await tokenRepo.revokeToken('mem-token-xyz')).toBe(true);
+        expect(await tokenRepo.revokeToken('non-existent')).toBe(false);
+        expect(await tokenRepo.isRevoked('mem-token-xyz')).toBe(true);
+
+        // Client repo
+        await clientRepo.createClient('app-1', 'sec-1', 'App One');
+        const client = await clientRepo.findClient('app-1');
+        expect(client?.name).toBe('App One');
+        expect(await clientRepo.findClient('app-none')).toBeNull();
+
+        // Check clear
+        tokenRepo.clear();
+        expect(await tokenRepo.findToken('mem-token-xyz')).toBeNull();
+        clientRepo.clear();
+        expect(await clientRepo.findClient('app-1')).toBeNull();
+
+        // Test setters
+        const newRepo = { findToken: () => null };
+        guard.setTokenRepository(newRepo);
+        expect(guard.getTokenRepository()).toBe(newRepo);
+
+        const newClientRepo = { findClient: () => null };
+        guard.setClientRepository(newClientRepo);
+        expect(guard.getClientRepository()).toBe(newClientRepo);
+    });
+
+    test('AuthManager resolves repositories via string container binding or class constructor', () => {
+        class CustomTokenRepo {
+            public isCustom = true;
+        }
+
+        const app: any = {
+            make: (key: string) => {
+                if (key === 'custom.client.repo') {
+                    return { isCustomClient: true };
+                }
+                return null;
+            },
+            config: {
+                get: (k: string) => null
+            }
+        };
+
+        const auth = new AuthManager(app);
+        auth.provider('users', () => mockProvider);
+
+        const factory = auth.createPassportDriver({
+            provider: 'users',
+            token_repository: CustomTokenRepo,
+            client_repository: 'custom.client.repo'
+        }, 'passport');
+
+        const guard = factory({});
+        expect(guard.getTokenRepository().isCustom).toBe(true);
+        expect(guard.getClientRepository().isCustomClient).toBe(true);
+
+        // Test function factory repo
+        const factory2 = auth.createPassportDriver({
+            provider: 'users',
+            token_repository: ($app: any) => ({ factoryInst: true })
+        }, 'passport');
+        const guard2 = factory2({});
+        expect(guard2.getTokenRepository().factoryInst).toBe(true);
+    });
 });

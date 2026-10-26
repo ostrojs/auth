@@ -5,6 +5,7 @@ import SessionGuard from './sessionGuard';
 import TokenGuard from './tokenGuard';
 import JwtGuard from './drivers/jwtGuard';
 import PassportGuard from './drivers/passportGuard';
+import { MemoryTokenRepository, MemoryClientRepository } from './passportRepositories';
 import AuthRequest from './authRequest';
 import { implement, count } from '@ostro/support/function';
 
@@ -139,11 +140,32 @@ class AuthManager extends (implement(Manager, CreatesUserProviders)) {
      */
     public createPassportDriver($config: Record<string, any>, $name: string): (request: any) => PassportGuard {
         const $provider = this.createUserProvider($config['provider'] || null);
+        const container = this.$container || this.$app;
+        const resolveRepo = (repo: any) => {
+            if (typeof repo === 'string' && container && typeof container.make === 'function') {
+                return container.make(repo);
+            }
+            if (typeof repo === 'function') {
+                try {
+                    return new repo();
+                } catch {
+                    return repo(container);
+                }
+            }
+            return repo;
+        };
+
+        const tokenRepository = resolveRepo($config['token_repository']) || new MemoryTokenRepository();
+        const clientRepository = resolveRepo($config['client_repository']) || new MemoryClientRepository([
+            { id: 'client-mobile', secret: 'secret-mobile-123', name: 'Mobile App' },
+            { id: 'client-web', secret: 'secret-web-456', name: 'Web Dashboard' }
+        ]);
+
         return ($request: any) => {
             return new PassportGuard($provider, $request, {
                 provider: $provider,
-                tokenRepository: $config['token_repository'],
-                clientRepository: $config['client_repository'],
+                tokenRepository,
+                clientRepository,
                 inputKey: $config['input_key'] || 'access_token'
             });
         };
