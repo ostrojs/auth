@@ -1,5 +1,7 @@
 import GuardHelpers from '../guardHelpers';
 import { is_null, empty } from '@ostro/support/function';
+import type { IHttpRequest } from '@ostro/contracts/http/request';
+import type { IUserProvider } from '@ostro/contracts/auth/userProvider';
 import {
     MemoryTokenRepository,
     MemoryClientRepository,
@@ -29,8 +31,8 @@ export interface ClientCredentials {
  * Implements token & OAuth client credential authorization guard (similar to Laravel Passport).
  */
 class PassportGuard extends GuardHelpers {
-    public $request: any;
-    declare public $provider: any;
+    public $request?: IHttpRequest;
+    declare public $provider: IUserProvider;
     public $tokenRepository?: any;
     public $clientRepository?: any;
     public $inputKey: string = 'access_token';
@@ -91,20 +93,16 @@ class PassportGuard extends GuardHelpers {
      * @returns Bearer token or null
      */
     public getTokenForRequest(): string | null {
-        if (typeof this.$request?.bearerToken === 'function') {
-            const bearer = this.$request.bearerToken();
-            if (bearer) return bearer;
-        }
+        const bearer = this.$request?.bearerToken?.();
+        if (bearer) return bearer;
 
-        const authHeader = typeof this.$request?.header === 'function' ? this.$request.header('authorization') : null;
-        if (authHeader && authHeader.toLowerCase().startsWith('bearer ')) {
+        const authHeader = this.$request?.header?.('authorization');
+        if (authHeader && typeof authHeader === 'string' && authHeader.toLowerCase().startsWith('bearer ')) {
             return authHeader.slice(7).trim();
         }
 
-        if (typeof this.$request?.input === 'function') {
-            const val = this.$request.input(this.$inputKey);
-            if (val) return String(val);
-        }
+        const val = this.$request?.input?.(this.$inputKey);
+        if (val) return String(val);
 
         if (this.$request?.query && this.$request.query[this.$inputKey]) {
             return String(this.$request.query[this.$inputKey]);
@@ -142,7 +140,7 @@ class PassportGuard extends GuardHelpers {
         }
 
         // 2. Fallback direct token lookup via user provider
-        if (this.$provider && typeof this.$provider.retrieveByCredentials === 'function') {
+        if (this.$provider?.retrieveByCredentials) {
             const user = await this.$provider.retrieveByCredentials({
                 api_token: token
             });
