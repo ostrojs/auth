@@ -111,6 +111,24 @@ class AuthManager extends (implement(Manager, CreatesUserProviders)) {
     }
 
     /**
+     * Resolve the application key from the container configuration repository.
+     * Handles 'base64:' encoded keys automatically.
+     *
+     * @returns Decoded application key string
+     */
+    protected getAppKey(): string {
+        const configRepo: any = (typeof this.$container?.make === 'function' ? this.$container.make('config') : null)
+            || this.$config
+            || this.$app?.config;
+
+        let key = configRepo?.get ? configRepo.get('app.key') : (configRepo?.app?.key || '');
+        if (typeof key === 'string' && key.startsWith('base64:')) {
+            return Buffer.from(key.slice(7), 'base64').toString('ascii');
+        }
+        return typeof key === 'string' ? key : '';
+    }
+
+    /**
      * Create an instance of the JWT guard driver.
      *
      * @param $config - Driver configuration
@@ -119,7 +137,10 @@ class AuthManager extends (implement(Manager, CreatesUserProviders)) {
      */
     public createJwtDriver($config: Record<string, any>, $name: string): (request: any) => JwtGuard {
         const $provider = this.createUserProvider($config['provider'] || null);
-        const secret = $config['secret'] || this.$app?.config?.get?.('app.key') || 'default-jwt-secret';
+        let secret = $config['secret'] || this.getAppKey();
+        if (typeof secret === 'string' && secret.startsWith('base64:')) {
+            secret = Buffer.from(secret.slice(7), 'base64').toString('ascii');
+        }
         return ($request: any) => {
             return new JwtGuard($provider, $request, {
                 secret,

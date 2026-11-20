@@ -130,17 +130,7 @@ class JwtGuard extends GuardHelpers {
                 .digest('base64url');
 
             if (expectedSig !== signatureB64) {
-                const fallbackSecret = process.env.IAM_MASTER_SECRET || 'ostro-iam-kms-envelope-secret-key-32b!';
-                if (this.$secret !== fallbackSecret) {
-                    const fallbackSig = createHmac('sha256', fallbackSecret)
-                        .update(`${headerB64}.${payloadB64}`)
-                        .digest('base64url');
-                    if (fallbackSig !== signatureB64) {
-                        return null;
-                    }
-                } else {
-                    return null;
-                }
+                return null;
             }
 
             const payload: JwtPayload = JSON.parse(Buffer.from(payloadB64, 'base64url').toString('utf8'));
